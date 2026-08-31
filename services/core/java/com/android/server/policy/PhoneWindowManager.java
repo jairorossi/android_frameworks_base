@@ -2565,7 +2565,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             updateKeyAssignments();
 
             boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
-                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+                    "three_finger_gesture", 0, UserHandle.USER_CURRENT) == 1;
             if (mSwipeToScreenshot != null) {
                 if (haveEnableGesture != threeFingerGesture) {
                     haveEnableGesture = threeFingerGesture;
