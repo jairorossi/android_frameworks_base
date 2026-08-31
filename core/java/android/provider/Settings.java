@@ -8565,6 +8565,13 @@ public final class Settings {
         public static final String WAKE_GESTURE_ENABLED = "wake_gesture_enabled";
 
         /**
+         * Whether to take a screenshot on a three finger swipe.
+         * 1 - enabled, 0 - disabled
+         * @hide
+         */
+        public static final String THREE_FINGER_GESTURE = "three_finger_gesture";
+
+        /**
          * Whether the device should doze if configured.
          * @hide
          */

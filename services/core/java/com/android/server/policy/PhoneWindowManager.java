@@ -706,6 +706,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mLongSwipeDown;
 
     private LineageHardwareManager mLineageHardware;
+    private SwipeToScreenshotListener mSwipeToScreenshot;
+    private boolean haveEnableGesture = false;
 
     private class PolicyHandler extends Handler {
         @Override
@@ -2561,6 +2563,19 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
 
             updateKeyAssignments();
+
+            boolean threeFingerGesture = Settings.System.getIntForUser(resolver,
+                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+            if (mSwipeToScreenshot != null) {
+                if (haveEnableGesture != threeFingerGesture) {
+                    haveEnableGesture = threeFingerGesture;
+                    if (haveEnableGesture) {
+                        mWindowManagerFuncs.registerPointerEventListener(mSwipeToScreenshot, DEFAULT_DISPLAY);
+                    } else {
+                        mWindowManagerFuncs.unregisterPointerEventListener(mSwipeToScreenshot, DEFAULT_DISPLAY);
+                    }
+                }
+            }
 
             // use screen off timeout setting as the timeout for the lockscreen
             mLockScreenTimeout = Settings.System.getIntForUser(resolver,
@@ -5449,6 +5464,17 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         mLineageHardware = LineageHardwareManager.getInstance(mContext);
+
+        mSwipeToScreenshot = new SwipeToScreenshotListener(mContext, new SwipeToScreenshotListener.Callbacks() {
+            @Override
+            public void onSwipeThreeFinger() {
+                mHandler.removeCallbacks(mScreenshotRunnable);
+                mScreenshotRunnable.setScreenshotType(TAKE_SCREENSHOT_FULLSCREEN);
+                mScreenshotRunnable.setScreenshotSource(SCREENSHOT_KEY_OTHER);
+                mHandler.post(mScreenshotRunnable);
+            }
+        });
+
         // Ensure observe happens in systemReady() since we need
         // LineageHardwareService to be up and running
         mSettingsObserver.observe();
