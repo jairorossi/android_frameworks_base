@@ -269,19 +269,7 @@ public class Camera {
     /**
      * @hide
      */
-    public static boolean shouldExposeAuxCamera() {
-        /**
-         * Force to expose only two cameras
-         * if the package name does not falls in this bucket
-         */
-        String packageName = ActivityThread.currentOpPackageName();
-        List<String> packageList = Arrays.asList(
-                SystemProperties.get("vendor.camera.aux.packagelist", packageName).split(","));
-        List<String> packageBlacklist = Arrays.asList(
-                SystemProperties.get("vendor.camera.aux.packageexcludelist", "").split(","));
-
-        return packageList.contains(packageName) && !packageBlacklist.contains(packageName);
-    }
+    public static boolean shouldExposeAuxCamera() { return true; }
 
     /**
      * Returns the number of physical cameras available on this device.

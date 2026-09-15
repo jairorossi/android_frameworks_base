@@ -39,7 +39,7 @@
 
     <Space android:id="@+id/space_above_icon"
         android:layout_width="match_parent"
-        android:layout_height="48dp" />
+        android:layout_height="16dp" />
 
     <FrameLayout
         android:id="@+id/biometric_icon_frame"
@@ -78,10 +78,10 @@
     <LinearLayout
         android:id="@+id/button_bar"
         android:layout_width="match_parent"
-        android:layout_height="88dp"
+        android:layout_height="wrap_content"
         style="?android:attr/buttonBarStyle"
         android:orientation="horizontal"
-        android:paddingTop="24dp">
+        android:paddingTop="8dp">
 
         <Space android:id="@+id/leftSpacer"
             android:layout_width="8dp"
