@@ -99,6 +99,8 @@ final class AppErrorDialog extends BaseErrorDialog implements View.OnClickListen
         setCancelMessage(mHandler.obtainMessage(CANCEL));
 
         WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.gravity = android.view.Gravity.CENTER;
+        attrs.width = WindowManager.LayoutParams.MATCH_PARENT;
         attrs.setTitle("Application Error: " + mProc.info.processName);
         attrs.privateFlags |= WindowManager.LayoutParams.PRIVATE_FLAG_SYSTEM_ERROR
                 | WindowManager.LayoutParams.SYSTEM_FLAG_SHOW_FOR_ALL_USERS;
