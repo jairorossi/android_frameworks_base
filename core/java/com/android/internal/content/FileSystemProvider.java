@@ -408,6 +408,14 @@ public abstract class FileSystemProvider extends DocumentsProvider {
         return queryChildDocuments(parentDocumentId, projection, sortOrder, this::shouldShow);
     }
 
+    protected Cursor queryChildDocuments(
+            String parentDocumentId, String[] projection, String sortOrder,
+            boolean includeHidden) throws FileNotFoundException {
+        return includeHidden
+                ? queryChildDocumentsShowAll(parentDocumentId, projection, sortOrder)
+                : queryChildDocuments(parentDocumentId, projection, sortOrder);
+    }
+
     private Cursor queryChildDocuments(
             String parentDocumentId, String[] projection, String sortOrder,
             @NonNull Predicate<File> filter) throws FileNotFoundException {

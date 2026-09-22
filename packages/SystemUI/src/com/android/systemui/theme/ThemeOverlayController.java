@@ -700,14 +700,6 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
             categoryToPackage.put(OVERLAY_CATEGORY_ACCENT_COLOR, mSecondaryOverlay.getIdentifier());
         }
 
-        boolean isBlackMode = (LineageSettings.System.getIntForUser(
-                mContext.getContentResolver(), LineageSettings.System.BERRY_BLACK_THEME,
-                0, currentUser) == 1) && isNightMode();
-        if (categoryToPackage.containsKey(OVERLAY_CATEGORY_SYSTEM_PALETTE) && isBlackMode) {
-            OverlayIdentifier blackTheme = new OverlayIdentifier(OVERLAY_BERRY_BLACK_THEME);
-            categoryToPackage.put(OVERLAY_CATEGORY_SYSTEM_PALETTE, blackTheme);
-        }
-
         Set<UserHandle> managedProfiles = new HashSet<>();
         for (UserInfo userInfo : mUserManager.getEnabledProfiles(currentUser)) {
             if (userInfo.isManagedProfile()) {
@@ -722,7 +714,10 @@ public class ThemeOverlayController extends SystemUI implements Dumpable {
 
         boolean nightMode = (mContext.getResources().getConfiguration().uiMode
                 & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-        boolean isBlackTheme = mSecureSettings.getInt(Settings.Secure.SYSTEM_BLACK_THEME, 0) == 1
+        boolean isBlackTheme = (mSecureSettings.getInt(Settings.Secure.SYSTEM_BLACK_THEME, 0) == 1
+                                || LineageSettings.System.getIntForUser(
+                                        mContext.getContentResolver(), LineageSettings.System.BERRY_BLACK_THEME,
+                                        0, currentUser) == 1)
                                 && nightMode;
 
         mThemeManager.setIsBlackTheme(isBlackTheme);

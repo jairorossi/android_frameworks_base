@@ -259,6 +259,8 @@ public class ThemeOverlayApplier implements Dumpable {
             try {
                 mOverlayManager.setEnabled("com.android.system.theme.black",
                         enable, UserHandle.SYSTEM);
+                mOverlayManager.setEnabled("org.lineageos.overlay.customization.blacktheme",
+                        enable, UserHandle.SYSTEM);
             } catch (SecurityException | IllegalStateException e) {
                 Log.e(TAG, "setEnabled failed", e);
             }
